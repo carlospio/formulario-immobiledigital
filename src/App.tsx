@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Building2, Home, User } from 'lucide-react';
+import { Home, User } from 'lucide-react';
 import PersonalInfoForm from './components/PersonalInfoForm';
 import AddressContactForm from './components/AddressContactForm';
 import PropertyForm from './components/PropertyForm';
@@ -9,12 +9,16 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 export type FormType = 'owner' | 'buyer' | 'tenant';
 
+interface FormData {
+  [key: string]: string;
+}
+
 function Form() {
   const [currentStep, setCurrentStep] = useState(1);
   const [formType, setFormType] = useState<FormType>('owner');
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState<FormData>({});
 
-  const handleNext = (data: any) => {
+  const handleNext = (data: FormData) => {
     setFormData(prev => ({ ...prev, ...data }));
     setCurrentStep(prev => Math.min(prev + 1, 3));
   };
@@ -23,7 +27,7 @@ function Form() {
     setCurrentStep(prev => Math.max(prev - 1, 1));
   };
 
-  const handleSubmit = (data: any) => {
+  const handleSubmit = (data: FormData) => {
     const finalData = { ...formData, ...data };
     
     // Criar um formulário temporário para enviar os dados
@@ -142,7 +146,7 @@ function Form() {
 
 function App() {
   return (
-    <Router basename="/immobiledigital">
+    <Router basename="/formulario-immobiledigital">
       <Routes>
         <Route path="/" element={<Form />} />
         <Route path="/sucesso" element={<Sucesso />} />
