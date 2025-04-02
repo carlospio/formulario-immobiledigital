@@ -18,6 +18,12 @@ function Form() {
   const [formType, setFormType] = useState<FormType>('owner');
   const [formData, setFormData] = useState<FormData>({});
 
+  const handleTypeChange = (type: FormType) => {
+    setFormType(type);
+    setCurrentStep(1);
+    setFormData({});
+  };
+
   const handleNext = (data: FormData) => {
     setFormData(prev => ({ ...prev, ...data }));
     setCurrentStep(prev => Math.min(prev + 1, 3));
@@ -83,7 +89,7 @@ function Form() {
         <div className="mb-8">
           <div className="flex gap-4 justify-center">
             <button
-              onClick={() => setFormType('owner')}
+              onClick={() => handleTypeChange('owner')}
               className={`px-6 py-3 rounded-lg flex items-center gap-2 ${
                 formType === 'owner'
                   ? 'bg-[#a11882] text-white'
@@ -94,7 +100,7 @@ function Form() {
               Proprietário
             </button>
             <button
-              onClick={() => setFormType('buyer')}
+              onClick={() => handleTypeChange('buyer')}
               className={`px-6 py-3 rounded-lg flex items-center gap-2 ${
                 formType === 'buyer'
                   ? 'bg-[#a11882] text-white'
@@ -105,7 +111,7 @@ function Form() {
               Comprador
             </button>
             <button
-              onClick={() => setFormType('tenant')}
+              onClick={() => handleTypeChange('tenant')}
               className={`px-6 py-3 rounded-lg flex items-center gap-2 ${
                 formType === 'tenant'
                   ? 'bg-[#a11882] text-white'
@@ -129,7 +135,7 @@ function Form() {
           {currentStep === 2 && (
             <AddressContactForm
               onBack={handleBack}
-              onSubmit={handleNext}
+              onSubmit={formType === 'tenant' ? handleSubmit : handleNext}
             />
           )}
           {currentStep === 3 && formType !== 'tenant' && (
