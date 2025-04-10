@@ -128,7 +128,8 @@ function Form() {
       { name: '_subject', value: `Novo cadastro - ${formTypeLabels[formType]}` },
       { name: '_template', value: 'table' },
       { name: '_next', value: window.location.origin + '/sucesso' },
-      { name: '_autoresponse', value: 'Obrigado! Recebemos seu cadastro com sucesso.' }
+      { name: '_autoresponse', value: 'Obrigado! Recebemos seu cadastro com sucesso.' },
+      { name: '_csv', value: 'true' }
     ];
 
     configInputs.forEach(({ name, value }) => {
