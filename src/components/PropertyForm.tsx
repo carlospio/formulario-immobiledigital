@@ -128,6 +128,61 @@ const PropertyForm: React.FC<PropertyFormProps> = ({ onBack, onSubmit }) => {
         </div>
       </div>
 
+      <div className="mt-8">
+        <h2 className="text-2xl font-semibold text-gray-900 mb-6">
+          Dados Bancários
+        </h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Banco
+            </label>
+            <input
+              type="text"
+              name="bankName"
+              required
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#a11882] focus:ring-[#a11882]"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Agência
+            </label>
+            <input
+              type="text"
+              name="bankAgency"
+              required
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#a11882] focus:ring-[#a11882]"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Conta
+            </label>
+            <input
+              type="text"
+              name="bankAccount"
+              required
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#a11882] focus:ring-[#a11882]"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Chave PIX
+            </label>
+            <input
+              type="text"
+              name="pixKey"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#a11882] focus:ring-[#a11882]"
+            />
+          </div>
+        </div>
+      </div>
+
       <div className="flex justify-between mt-8">
         <button
           type="button"
