@@ -22,6 +22,15 @@ function Form() {
     setFormType(type);
     setCurrentStep(1);
     setFormData({});
+    // Resetar o estado do formulário
+    const formElements = document.querySelectorAll('form input, form select, form textarea');
+    formElements.forEach((element: any) => {
+      if (element.type === 'checkbox' || element.type === 'radio') {
+        element.checked = false;
+      } else {
+        element.value = '';
+      }
+    });
   };
 
   const handleNext = (data: FormData) => {
@@ -36,16 +45,72 @@ function Form() {
   const handleSubmit = (data: FormData) => {
     const finalData = { ...formData, ...data };
     
+    // Mapeamento de campos para labels
+    const fieldLabels: { [key: string]: string } = {
+      // Dados Pessoais
+      fullName: 'Nome completo',
+      birthDate: 'Data de nascimento',
+      maritalStatus: 'Estado civil',
+      nationality: 'Nacionalidade',
+      birthPlace: 'Naturalidade',
+      cpf: 'CPF',
+      rg: 'RG',
+      rgIssuer: 'Órgão emissor',
+      rgIssueDate: 'Data de emissão',
+      
+      // Dados do Cônjuge
+      spouseFullName: 'Nome completo do cônjuge',
+      spouseBirthDate: 'Data de nascimento do cônjuge',
+      spouseNationality: 'Nacionalidade do cônjuge',
+      spouseBirthPlace: 'Naturalidade do cônjuge',
+      spouseCpf: 'CPF do cônjuge',
+      spouseRg: 'RG do cônjuge',
+      spouseRgIssuer: 'Órgão emissor do cônjuge',
+      spouseRgIssueDate: 'Data de emissão do cônjuge',
+      
+      // Endereço e Contato
+      address: 'Endereço',
+      number: 'Número',
+      complement: 'Complemento',
+      neighborhood: 'Bairro',
+      city: 'Cidade',
+      state: 'Estado',
+      zipCode: 'CEP',
+      phone: 'Celular',
+      spousePhone: 'Celular do cônjuge',
+      email: 'E-mail',
+      spouseEmail: 'E-mail do cônjuge',
+      profession: 'Profissão',
+      spouseProfession: 'Profissão do cônjuge',
+      
+      // Dados do Imóvel
+      propertyAddress: 'Endereço do imóvel',
+      propertyNumber: 'Número do imóvel',
+      propertyComplement: 'Complemento do imóvel',
+      propertyNeighborhood: 'Bairro do imóvel',
+      propertyCity: 'Cidade do imóvel',
+      propertyState: 'Estado do imóvel',
+      propertyZipCode: 'CEP do imóvel',
+      registrationNumber: 'Número de matrícula',
+      iptuNumber: 'Número de cadastro do imóvel IPTU',
+      
+      // Dados Bancários
+      bankName: 'Banco',
+      bankAgency: 'Agência',
+      bankAccount: 'Conta',
+      pixKey: 'Chave PIX'
+    };
+    
     // Criar um formulário temporário para enviar os dados
     const form = document.createElement('form');
     form.method = 'POST';
-    form.action = 'https://formsubmit.co/carlospiobenicio@gmail.com'; // Substitua pelo seu email
+    form.action = 'https://formsubmit.co/carlospiobenicio@gmail.com';
     
-    // Adicionar os campos do formulário
+    // Adicionar os campos do formulário com labels formatados
     Object.entries(finalData).forEach(([key, value]) => {
       const input = document.createElement('input');
       input.type = 'hidden';
-      input.name = key;
+      input.name = fieldLabels[key] || key; // Usa o label formatado se existir
       input.value = String(value);
       form.appendChild(input);
     });
@@ -75,11 +140,10 @@ function Form() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-[#a11882] text-white py-6">
+      <div className="bg-[#190717] text-white py-6">
         <div className="container mx-auto px-4">
           <div className="flex items-center gap-2">
-            <img src="/logo.webp" alt="Logo" className="h-8" />
-            <h1 className="text-2xl font-bold">Imobiliária Digital</h1>
+            <img src="/formulario-immobiledigital/logo.jpg" alt="Logo" className="h-12" />
           </div>
         </div>
       </div>
