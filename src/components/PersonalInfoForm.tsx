@@ -12,6 +12,19 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({ onSubmit }) => {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
     const data = Object.fromEntries(formData);
+    
+    // Se não for casado ou união estável, remove os dados do cônjuge
+    if (!isMarried) {
+      delete data.spouseFullName;
+      delete data.spouseBirthDate;
+      delete data.spouseNationality;
+      delete data.spouseBirthPlace;
+      delete data.spouseCpf;
+      delete data.spouseRg;
+      delete data.spouseRgIssuer;
+      delete data.spouseRgIssueDate;
+    }
+    
     onSubmit(data);
   };
 

@@ -3,6 +3,7 @@ import { Home, User } from 'lucide-react';
 import PersonalInfoForm from './components/PersonalInfoForm';
 import AddressContactForm from './components/AddressContactForm';
 import PropertyForm from './components/PropertyForm';
+import ReviewForm from './components/ReviewForm';
 import StepIndicator from './components/StepIndicator';
 import Sucesso from './pages/Sucesso';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -35,7 +36,7 @@ function Form() {
 
   const handleNext = (data: FormData) => {
     setFormData(prev => ({ ...prev, ...data }));
-    setCurrentStep(prev => Math.min(prev + 1, 3));
+    setCurrentStep(prev => Math.min(prev + 1, 4));
   };
 
   const handleBack = () => {
@@ -100,24 +101,31 @@ function Form() {
       bankAccount: 'Conta',
       pixKey: 'Chave PIX'
     };
+
+    // Mapeamento dos tipos de formulário para português
+    const formTypeLabels: { [key in FormType]: string } = {
+      owner: 'Proprietário',
+      buyer: 'Comprador',
+      tenant: 'Inquilino'
+    };
     
     // Criar um formulário temporário para enviar os dados
     const form = document.createElement('form');
     form.method = 'POST';
-    form.action = 'https://formsubmit.co/carlospiobenicio@gmail.com';
+    form.action = 'https://formsubmit.co/christian.diogo@immobiledigital.com.br';
     
     // Adicionar os campos do formulário com labels formatados
     Object.entries(finalData).forEach(([key, value]) => {
       const input = document.createElement('input');
       input.type = 'hidden';
-      input.name = fieldLabels[key] || key; // Usa o label formatado se existir
+      input.name = fieldLabels[key] || key;
       input.value = String(value);
       form.appendChild(input);
     });
 
     // Adicionar campos de configuração do FormSubmit
     const configInputs = [
-      { name: '_subject', value: `Novo cadastro - ${formType}` },
+      { name: '_subject', value: `Novo cadastro - ${formTypeLabels[formType]}` },
       { name: '_template', value: 'table' },
       { name: '_next', value: window.location.origin + '/sucesso' },
       { name: '_autoresponse', value: 'Obrigado! Recebemos seu cadastro com sucesso.' }
@@ -199,11 +207,18 @@ function Form() {
           {currentStep === 2 && (
             <AddressContactForm
               onBack={handleBack}
-              onSubmit={formType === 'tenant' ? handleSubmit : handleNext}
+              onSubmit={handleNext}
             />
           )}
           {currentStep === 3 && formType !== 'tenant' && (
             <PropertyForm
+              onBack={handleBack}
+              onSubmit={handleNext}
+            />
+          )}
+          {currentStep === 4 && (
+            <ReviewForm
+              formData={formData}
               onBack={handleBack}
               onSubmit={handleSubmit}
             />
