@@ -3,9 +3,10 @@ import React from 'react';
 interface PropertyFormProps {
   onBack: () => void;
   onSubmit: (data: any) => void;
+  formType: 'owner' | 'buyer' | 'tenant';
 }
 
-const PropertyForm: React.FC<PropertyFormProps> = ({ onBack, onSubmit }) => {
+const PropertyForm: React.FC<PropertyFormProps> = ({ onBack, onSubmit, formType }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
@@ -103,29 +104,33 @@ const PropertyForm: React.FC<PropertyFormProps> = ({ onBack, onSubmit }) => {
           />
         </div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Número de Matrícula
-          </label>
-          <input
-            type="text"
-            name="registrationNumber"
-            required
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#a11882] focus:ring-[#a11882]"
-          />
-        </div>
+        {formType !== 'buyer' && (
+          <>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Número de Matrícula
+              </label>
+              <input
+                type="text"
+                name="registrationNumber"
+                required
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#a11882] focus:ring-[#a11882]"
+              />
+            </div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Número de Cadastro do Imóvel IPTU
-          </label>
-          <input
-            type="text"
-            name="iptuNumber"
-            required
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#a11882] focus:ring-[#a11882]"
-          />
-        </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Número de Cadastro do Imóvel IPTU
+              </label>
+              <input
+                type="text"
+                name="iptuNumber"
+                required
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#a11882] focus:ring-[#a11882]"
+              />
+            </div>
+          </>
+        )}
       </div>
 
       <div className="mt-8">

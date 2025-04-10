@@ -210,10 +210,11 @@ function Form() {
               onSubmit={handleNext}
             />
           )}
-          {currentStep === 3 && formType !== 'tenant' && (
+          {currentStep === 3 && (
             <PropertyForm
               onBack={handleBack}
               onSubmit={handleNext}
+              formType={formType}
             />
           )}
           {currentStep === 4 && (
