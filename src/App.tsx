@@ -6,8 +6,7 @@ import PropertyForm from './components/PropertyForm';
 import ReviewForm from './components/ReviewForm';
 import StepIndicator from './components/StepIndicator';
 import Sucesso from './pages/Sucesso';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 export type FormType = 'owner' | 'buyer' | 'tenant';
 
 interface FormData {
@@ -234,7 +233,7 @@ function Form() {
 
 function App() {
   return (
-    <Router basename="/">
+    <Router>
       <Routes>
         <Route path="/" element={<Form />} />
         <Route path="/sucesso" element={<Sucesso />} />
@@ -242,5 +241,6 @@ function App() {
     </Router>
   );
 }
+
 
 export default App;
