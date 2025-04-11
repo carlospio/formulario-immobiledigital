@@ -152,7 +152,7 @@ function Form() {
       <div className="bg-[#190717] text-white py-6">
         <div className="container mx-auto px-4">
           <div className="flex items-center gap-2">
-            <img src="/formulario-immobiledigital/logo.jpg" alt="Logo" className="h-12" />
+            <img src="/logo.jpg" alt="Logo" className="h-12" />
           </div>
         </div>
       </div>
