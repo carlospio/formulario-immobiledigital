@@ -233,7 +233,7 @@ function Form() {
 
 function App() {
   return (
-    <Router basename="/formulario-immobiledigital">
+    <Router basename="https://cadastro.immobiledigital.com.br/">
       <Routes>
         <Route path="/" element={<Form />} />
         <Route path="/sucesso" element={<Sucesso />} />
