@@ -6,7 +6,8 @@ import PropertyForm from './components/PropertyForm';
 import ReviewForm from './components/ReviewForm';
 import StepIndicator from './components/StepIndicator';
 import Sucesso from './pages/Sucesso';
-import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
 export type FormType = 'owner' | 'buyer' | 'tenant';
 
 interface FormData {
@@ -111,8 +112,8 @@ function Form() {
     // Criar um formulário temporário para enviar os dados
     const form = document.createElement('form');
     form.method = 'POST';
-    // form.action = 'https://formsubmit.co/christian.diogo@immobiledigital.com.br';
-    form.action = 'https://formsubmit.co/carlospiobenicio@gmail.com';
+    form.action = 'https://formsubmit.co/christian.diogo@immobiledigital.com.br';
+
     
     // Adicionar os campos do formulário com labels formatados
     Object.entries(finalData).forEach(([key, value]) => {
@@ -233,7 +234,7 @@ function Form() {
 
 function App() {
   return (
-    <Router>
+    <Router basename="/">
       <Routes>
         <Route path="/" element={<Form />} />
         <Route path="/sucesso" element={<Sucesso />} />
@@ -241,6 +242,5 @@ function App() {
     </Router>
   );
 }
-
 
 export default App;
