@@ -112,7 +112,8 @@ function Form() {
     // Criar um formulário temporário para enviar os dados
     const form = document.createElement('form');
     form.method = 'POST';
-    form.action = 'https://formsubmit.co/christian.diogo@immobiledigital.com.br';
+    // form.action = 'https://formsubmit.co/christian.diogo@immobiledigital.com.br';
+    form.action = 'https://formsubmit.co/carlospiobenicio@gmail.com';
     
     // Adicionar os campos do formulário com labels formatados
     Object.entries(finalData).forEach(([key, value]) => {
