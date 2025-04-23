@@ -8,18 +8,20 @@ interface StepIndicatorProps {
 }
 
 const StepIndicator: React.FC<StepIndicatorProps> = ({ currentStep, formType }) => {
-  const steps = [
+  const allSteps = [
     { icon: User, label: 'Dados Pessoais' },
     { icon: MapPin, label: 'Endereço e Contato' },
     { icon: Building2, label: 'Dados do Imóvel' },
     { icon: CheckCircle2, label: 'Revisão' },
   ];
 
-  const totalSteps = formType === 'tenant' ? 3 : 4;
+  const steps = formType === 'tenant' 
+    ? allSteps.filter(step => step.label !== 'Dados do Imóvel')
+    : allSteps;
 
   return (
     <div className="flex justify-center items-center gap-4">
-      {steps.slice(0, totalSteps).map((step, index) => {
+      {steps.map((step, index) => {
         const StepIcon = step.icon;
         const isActive = index + 1 === currentStep;
         const isCompleted = index + 1 < currentStep;
