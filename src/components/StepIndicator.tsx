@@ -1,5 +1,5 @@
 import React from 'react';
-import { Building2, MapPin, User, CheckCircle2 } from 'lucide-react';
+import { Building2, MapPin, User, CheckCircle2, Wallet } from 'lucide-react';
 import { FormType } from '../App';
 
 interface StepIndicatorProps {
@@ -12,6 +12,7 @@ const StepIndicator: React.FC<StepIndicatorProps> = ({ currentStep, formType }) 
     { icon: User, label: 'Dados Pessoais' },
     { icon: MapPin, label: 'Endereço e Contato' },
     { icon: Building2, label: 'Dados do Imóvel' },
+    { icon: Wallet, label: 'Dados Bancários' },
     { icon: CheckCircle2, label: 'Revisão' },
   ];
 
