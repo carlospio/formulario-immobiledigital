@@ -3,6 +3,7 @@ import { Home, User } from 'lucide-react';
 import PersonalInfoForm from './components/PersonalInfoForm';
 import AddressContactForm from './components/AddressContactForm';
 import PropertyForm from './components/PropertyForm';
+import BankInfoForm from './components/BankInfoForm';
 import ReviewForm from './components/ReviewForm';
 import StepIndicator from './components/StepIndicator';
 import Sucesso from './pages/Sucesso';
@@ -36,7 +37,7 @@ function Form() {
 
   const handleNext = (data: FormData) => {
     setFormData(prev => ({ ...prev, ...data }));
-    setCurrentStep(prev => Math.min(prev + 1, 4));
+    setCurrentStep(prev => Math.min(prev + 1, formType === 'tenant' ? 5 : 5));
   };
 
   const handleBack = () => {
@@ -212,14 +213,20 @@ function Form() {
               onSubmit={handleNext}
             />
           )}
-          {currentStep === 3 && (
+          {currentStep === 3 && formType !== 'tenant' && (
             <PropertyForm
               onBack={handleBack}
               onSubmit={handleNext}
               formType={formType}
             />
           )}
-          {currentStep === 4 && (
+          {((currentStep === 3 && formType === 'tenant') || (currentStep === 4 && formType !== 'tenant')) && (
+            <BankInfoForm
+              onBack={handleBack}
+              onSubmit={handleNext}
+            />
+          )}
+          {((currentStep === 4 && formType === 'tenant') || currentStep === 5) && (
             <ReviewForm
               formData={formData}
               onBack={handleBack}
