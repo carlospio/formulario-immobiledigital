@@ -131,7 +131,8 @@ function Form() {
       { name: '_template', value: 'table' },
       { name: '_next', value: window.location.origin + '/sucesso' },
       { name: '_autoresponse', value: 'Obrigado! Recebemos seu cadastro com sucesso.' },
-      { name: '_csv', value: 'true' }
+      { name: '_csv', value: 'true' },
+      { name: '_cc', value: 'administrativo@immobiledigital.com.br' }
     ];
 
     configInputs.forEach(({ name, value }) => {
