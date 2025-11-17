@@ -37,7 +37,9 @@ function Form() {
 
   const handleNext = (data: FormData) => {
     setFormData(prev => ({ ...prev, ...data }));
-    setCurrentStep(prev => Math.min(prev + 1, formType === 'tenant' ? 5 : 5));
+    // Calcular o step máximo baseado no tipo de formulário
+    const maxStep = (formType === 'buyer' || formType === 'tenant') ? 3 : 5;
+    setCurrentStep(prev => Math.min(prev + 1, maxStep));
   };
 
   const handleBack = () => {
@@ -214,20 +216,31 @@ function Form() {
               onSubmit={handleNext}
             />
           )}
-          {currentStep === 3 && formType !== 'tenant' && (
+          {/* Step 3: Dados do Imóvel (apenas para Proprietário) */}
+          {currentStep === 3 && formType === 'owner' && (
             <PropertyForm
               onBack={handleBack}
               onSubmit={handleNext}
               formType={formType}
             />
           )}
-          {((currentStep === 3 && formType === 'tenant') || (currentStep === 4 && formType !== 'tenant')) && (
+          {/* Step 3: Revisão (para Comprador e Inquilino) */}
+          {(currentStep === 3 && (formType === 'buyer' || formType === 'tenant')) && (
+            <ReviewForm
+              formData={formData}
+              onBack={handleBack}
+              onSubmit={handleSubmit}
+            />
+          )}
+          {/* Step 4: Dados Bancários (apenas para Proprietário) */}
+          {currentStep === 4 && formType === 'owner' && (
             <BankInfoForm
               onBack={handleBack}
               onSubmit={handleNext}
             />
           )}
-          {((currentStep === 4 && formType === 'tenant') || currentStep === 5) && (
+          {/* Step 5: Revisão (apenas para Proprietário) */}
+          {currentStep === 5 && formType === 'owner' && (
             <ReviewForm
               formData={formData}
               onBack={handleBack}
