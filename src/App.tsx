@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Home, User } from 'lucide-react';
+import { Home, User, Loader2 } from 'lucide-react';
 import PersonalInfoForm from './components/PersonalInfoForm';
 import AddressContactForm from './components/AddressContactForm';
 import PropertyForm from './components/PropertyForm';
@@ -7,7 +7,8 @@ import BankInfoForm from './components/BankInfoForm';
 import ReviewForm from './components/ReviewForm';
 import StepIndicator from './components/StepIndicator';
 import Sucesso from './pages/Sucesso';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
+import { sendEmail } from './utils/emailService';
 
 export type FormType = 'owner' | 'buyer' | 'tenant';
 
@@ -16,9 +17,12 @@ interface FormData {
 }
 
 function Form() {
+  const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
   const [formType, setFormType] = useState<FormType>('owner');
   const [formData, setFormData] = useState<FormData>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const handleTypeChange = (type: FormType) => {
     setFormType(type);
@@ -46,109 +50,23 @@ function Form() {
     setCurrentStep(prev => Math.max(prev - 1, 1));
   };
 
-  const handleSubmit = (data: FormData) => {
+  const handleSubmit = async (data: FormData) => {
     const finalData = { ...formData, ...data };
     
-    // Mapeamento de campos para labels
-    const fieldLabels: { [key: string]: string } = {
-      // Dados Pessoais
-      fullName: 'Nome completo',
-      birthDate: 'Data de nascimento',
-      maritalStatus: 'Estado civil',
-      nationality: 'Nacionalidade',
-      birthPlace: 'Naturalidade',
-      cpf: 'CPF',
-      rg: 'RG',
-      rgIssuer: 'Órgão emissor',
-      rgIssueDate: 'Data de emissão',
-      
-      // Dados do Cônjuge
-      spouseFullName: 'Nome completo do cônjuge',
-      spouseBirthDate: 'Data de nascimento do cônjuge',
-      spouseNationality: 'Nacionalidade do cônjuge',
-      spouseBirthPlace: 'Naturalidade do cônjuge',
-      spouseCpf: 'CPF do cônjuge',
-      spouseRg: 'RG do cônjuge',
-      spouseRgIssuer: 'Órgão emissor do cônjuge',
-      spouseRgIssueDate: 'Data de emissão do cônjuge',
-      
-      // Endereço e Contato
-      address: 'Endereço',
-      number: 'Número',
-      complement: 'Complemento',
-      neighborhood: 'Bairro',
-      city: 'Cidade',
-      state: 'Estado',
-      zipCode: 'CEP',
-      phone: 'Celular',
-      spousePhone: 'Celular do cônjuge',
-      email: 'E-mail',
-      spouseEmail: 'E-mail do cônjuge',
-      profession: 'Profissão',
-      spouseProfession: 'Profissão do cônjuge',
-      
-      // Dados do Imóvel
-      propertyAddress: 'Endereço do imóvel',
-      propertyNumber: 'Número do imóvel',
-      propertyComplement: 'Complemento do imóvel',
-      propertyNeighborhood: 'Bairro do imóvel',
-      propertyCity: 'Cidade do imóvel',
-      propertyState: 'Estado do imóvel',
-      propertyZipCode: 'CEP do imóvel',
-      registrationNumber: 'Número de matrícula',
-      iptuNumber: 'Número de cadastro do imóvel IPTU',
-      
-      // Dados Bancários
-      bankName: 'Banco',
-      bankAgency: 'Agência',
-      bankAccount: 'Conta',
-      pixKey: 'Chave PIX'
-    };
+    setIsSubmitting(true);
+    setSubmitError(null);
 
-    // Mapeamento dos tipos de formulário para português
-    const formTypeLabels: { [key in FormType]: string } = {
-      owner: 'Proprietário',
-      buyer: 'Comprador',
-      tenant: 'Inquilino'
-    };
-    
-    // Criar um formulário temporário para enviar os dados
-    const form = document.createElement('form');
-    form.method = 'POST';
-    form.action = 'https://formsubmit.co/christian.diogo@immobiledigital.com.br';
-
-    
-    // Adicionar os campos do formulário com labels formatados
-    Object.entries(finalData).forEach(([key, value]) => {
-      const input = document.createElement('input');
-      input.type = 'hidden';
-      input.name = fieldLabels[key] || key;
-      input.value = String(value);
-      form.appendChild(input);
-    });
-
-    // Adicionar campos de configuração do FormSubmit
-    const configInputs = [
-      { name: '_subject', value: `Novo cadastro - ${formTypeLabels[formType]}` },
-      { name: '_template', value: 'table' },
-      { name: '_next', value: window.location.origin + '/sucesso' },
-      { name: '_autoresponse', value: 'Obrigado! Recebemos seu cadastro com sucesso.' },
-      { name: '_csv', value: 'true' },
-      { name: '_cc', value: 'administrativo@immobiledigital.com.br' }
-    ];
-
-    configInputs.forEach(({ name, value }) => {
-      const input = document.createElement('input');
-      input.type = 'hidden';
-      input.name = name;
-      input.value = value;
-      form.appendChild(input);
-    });
-
-    // Enviar o formulário
-    document.body.appendChild(form);
-    form.submit();
-    document.body.removeChild(form);
+    try {
+      await sendEmail(finalData, formType);
+      // Redirecionar para página de sucesso após envio bem-sucedido
+      navigate('/sucesso');
+    } catch (error) {
+      console.error('Erro ao enviar formulário:', error);
+      setSubmitError(
+        'Ocorreu um erro ao enviar o formulário. Por favor, tente novamente ou entre em contato conosco.'
+      );
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -207,6 +125,23 @@ function Form() {
 
         {/* Form Steps */}
         <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-lg p-6 mt-8">
+          {/* Mensagem de erro */}
+          {submitError && (
+            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+              <p className="text-red-800 text-sm">{submitError}</p>
+            </div>
+          )}
+
+          {/* Loading overlay */}
+          {isSubmitting && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+              <div className="bg-white rounded-lg p-8 flex flex-col items-center gap-4">
+                <Loader2 className="w-8 h-8 text-[#a11882] animate-spin" />
+                <p className="text-gray-700">Enviando formulário...</p>
+              </div>
+            </div>
+          )}
+
           {currentStep === 1 && (
             <PersonalInfoForm onSubmit={handleNext} />
           )}
@@ -230,6 +165,7 @@ function Form() {
               formData={formData}
               onBack={handleBack}
               onSubmit={handleSubmit}
+              isSubmitting={isSubmitting}
             />
           )}
           {/* Step 4: Dados Bancários (apenas para Proprietário) */}
@@ -245,6 +181,7 @@ function Form() {
               formData={formData}
               onBack={handleBack}
               onSubmit={handleSubmit}
+              isSubmitting={isSubmitting}
             />
           )}
         </div>

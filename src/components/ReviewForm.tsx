@@ -4,9 +4,10 @@ interface ReviewFormProps {
   formData: any;
   onBack: () => void;
   onSubmit: (data: any) => void;
+  isSubmitting?: boolean;
 }
 
-const ReviewForm: React.FC<ReviewFormProps> = ({ formData, onBack, onSubmit }) => {
+const ReviewForm: React.FC<ReviewFormProps> = ({ formData, onBack, onSubmit, isSubmitting = false }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit(formData);
@@ -114,9 +115,10 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ formData, onBack, onSubmit }) =
         </button>
         <button
           type="submit"
-          className="bg-[#a11882] text-white px-6 py-2 rounded-lg hover:bg-[#8a1470] transition-colors"
+          disabled={isSubmitting}
+          className="bg-[#a11882] text-white px-6 py-2 rounded-lg hover:bg-[#8a1470] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Confirmar e Enviar
+          {isSubmitting ? 'Enviando...' : 'Confirmar e Enviar'}
         </button>
       </div>
     </form>
