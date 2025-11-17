@@ -16,14 +16,20 @@ const StepIndicator: React.FC<StepIndicatorProps> = ({ currentStep, formType }) 
     { icon: CheckCircle2, label: 'Revisão' },
   ];
 
-  const steps = formType === 'tenant' 
-    ? allSteps.filter(step => step.label !== 'Dados do Imóvel')
-    : allSteps;
+  // Filtrar steps baseado no tipo de formulário
+  let steps = allSteps;
+  if (formType === 'tenant') {
+    steps = allSteps.filter(step => step.label !== 'Dados do Imóvel' && step.label !== 'Dados Bancários');
+  } else if (formType === 'buyer') {
+    steps = allSteps.filter(step => step.label !== 'Dados do Imóvel' && step.label !== 'Dados Bancários');
+  }
 
   return (
     <div className="flex justify-center items-center gap-4">
       {steps.map((step, index) => {
         const StepIcon = step.icon;
+        // Para buyer e tenant, o currentStep já corresponde ao índice correto no array filtrado
+        // Para owner, também corresponde porque não filtramos nada
         const isActive = index + 1 === currentStep;
         const isCompleted = index + 1 < currentStep;
 
