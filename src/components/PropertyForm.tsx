@@ -131,6 +131,48 @@ const PropertyForm: React.FC<PropertyFormProps> = ({ onBack, onSubmit, formType 
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#a11882] focus:ring-[#a11882]"
                   />
                 </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Cartório de Origem
+                  </label>
+                  <input
+                    type="text"
+                    name="originRegistry"
+                    required
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#a11882] focus:ring-[#a11882]"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Nota Fiscal
+                  </label>
+                  <select
+                    name="invoiceAvailable"
+                    required
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#a11882] focus:ring-[#a11882]"
+                  >
+                    <option value="">Selecione uma opção</option>
+                    <option value="sim">Sim</option>
+                    <option value="nao">Não</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Administração Immobile
+                  </label>
+                  <select
+                    name="immobileAdministration"
+                    required
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#a11882] focus:ring-[#a11882]"
+                  >
+                    <option value="">Selecione uma opção</option>
+                    <option value="sim">Sim</option>
+                    <option value="nao">Não</option>
+                  </select>
+                </div>
               </>
             )}
           </div>
