@@ -59,6 +59,9 @@ export const formatFormDataForEmail = (formData: Record<string, string>, formTyp
     propertyZipCode: 'CEP do imóvel',
     registrationNumber: 'Número de matrícula',
     iptuNumber: 'Número de cadastro do imóvel IPTU',
+    originRegistry: 'Cartório de origem',
+    invoiceAvailable: 'Nota fiscal',
+    immobileAdministration: 'Administração Immobile',
     
     // Dados Bancários
     bankName: 'Banco',
@@ -96,7 +99,7 @@ export const formatFormDataForEmail = (formData: Record<string, string>, formTyp
     { title: 'Dados Pessoais', fields: ['fullName', 'birthDate', 'maritalStatus', 'nationality', 'birthPlace', 'cpf', 'rg', 'rgIssuer', 'rgIssueDate'] },
     { title: 'Dados do Cônjuge', fields: ['spouseFullName', 'spouseBirthDate', 'spouseNationality', 'spouseBirthPlace', 'spouseCpf', 'spouseRg', 'spouseRgIssuer', 'spouseRgIssueDate'] },
     { title: 'Endereço e Contato', fields: ['address', 'number', 'complement', 'neighborhood', 'city', 'state', 'zipCode', 'phone', 'spousePhone', 'email', 'spouseEmail', 'profession', 'spouseProfession'] },
-    { title: 'Dados do Imóvel', fields: ['propertyAddress', 'propertyNumber', 'propertyComplement', 'propertyNeighborhood', 'propertyCity', 'propertyState', 'propertyZipCode', 'registrationNumber', 'iptuNumber'] },
+    { title: 'Dados do Imóvel', fields: ['propertyAddress', 'propertyNumber', 'propertyComplement', 'propertyNeighborhood', 'propertyCity', 'propertyState', 'propertyZipCode', 'registrationNumber', 'iptuNumber', 'originRegistry', 'invoiceAvailable', 'immobileAdministration'] },
     { title: 'Dados Bancários', fields: ['bankName', 'bankAgency', 'bankAccount', 'pixKey'] },
   ];
 

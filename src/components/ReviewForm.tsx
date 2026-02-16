@@ -90,6 +90,9 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ formData, onBack, onSubmit, isS
             {renderField('CEP do imóvel', formData.propertyZipCode)}
             {renderField('Número de matrícula', formData.registrationNumber)}
             {renderField('Número de cadastro do imóvel IPTU', formData.iptuNumber)}
+            {renderField('Cartório de origem', formData.originRegistry)}
+            {renderField('Nota fiscal', formData.invoiceAvailable)}
+            {renderField('Administração Immobile', formData.immobileAdministration)}
           </div>
         )}
 
